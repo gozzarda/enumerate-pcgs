@@ -1,5 +1,6 @@
 module SeqTrie
-  ( SeqTrie
+  ( SeqTrie, Seq
+  , branches
   , empty, singleton
   , fromList, toList
   , null, size, member
@@ -27,6 +28,10 @@ terminal (T b _) = b
 children :: SeqTrie -> (IntMap SeqTrie)
 children (L _) = IntMap.empty
 children (T _ m) = m
+
+-- The possible first elements of a sequence in the trie
+branches :: SeqTrie -> [Int]
+branches = IntMap.keys . children
 
 -- The emtpy trie
 empty :: SeqTrie

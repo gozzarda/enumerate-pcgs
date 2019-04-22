@@ -17,6 +17,13 @@ simpletrie = ST.fromList [[2, 3], [1, 3], [2, 2, 1], [1, 2], []]
 
 tests :: Spec
 tests = do
+  describe "branches" $ do
+    it "returns [] for the empty trie" $ do
+      ST.branches ST.empty `shouldBe` []
+
+    it "returns the prefix elements of a known trie" $ do
+      ST.branches simpletrie `shouldBe` [1, 2]
+
   describe "List conversion" $ do
     it "fromList [] gives the empty trie" $ do
       ST.fromList [] `shouldBe` ST.empty
