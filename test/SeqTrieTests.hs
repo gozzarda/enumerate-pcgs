@@ -72,17 +72,33 @@ tests = do
     it "returns a subtrie of a known trie" $ do
       ST.subtrie 2 simpletrie `shouldBe` ST.fromList [[3], [2, 1]]
 
-  -- TODO: prefixSubtrie
+  describe "prefixSubtrie" $ do
+    it "empty prefix gives whole trie" $ do
+      ST.prefixSubtrie [] simpletrie `shouldBe` simpletrie
+
+    it "returns a subtrie of a known trie" $ do
+      ST.prefixSubtrie [2, 2] simpletrie `shouldBe` ST.fromList [[1]]
 
   describe "deleteSubtrie" $ do
     it "deletes a subtrie of a known trie" $ do
       ST.deleteSubtrie 2 simpletrie `shouldBe` ST.fromList [[1, 3], [1, 2], []]
 
-  -- TODO: deletePrefix
+  describe "deletePrefix" $ do
+    it "empty prefix deletes whole trie" $ do
+      ST.deletePrefix [] simpletrie `shouldBe` ST.empty
+
+    it "deletes a subtrie of a known trie" $ do
+      ST.deletePrefix [2, 2] simpletrie `shouldBe` ST.fromList [[2, 3], [1, 3], [1, 2], []]
 
   describe "union" $ do
     it "merges two know tries" $ do
+      let
+        lt = ST.fromList [[2, 3], [2, 2, 1]]
+        rt = ST.fromList [[1, 3], [1, 2], []]
       ST.union lt rt `shouldBe` simpletrie
-        where
-          lt = ST.fromList [[2, 3], [2, 2, 1]]
-          rt = ST.fromList [[1, 3], [1, 2], []]
+
+    it "finds the union of a trie with itself to be itself" $ do
+      ST.union simpletrie simpletrie `shouldBe` simpletrie
+
+    it "the empty trie is the union identity" $ do
+      ST.union simpletrie ST.empty `shouldBe` simpletrie
