@@ -98,7 +98,7 @@ tests = do
       ST.deletePrefix [2, 2] simpletrie `shouldBe` ST.fromList [[2, 3], [1, 3], [1, 2], []]
 
   describe "union" $ do
-    it "merges two know tries" $ do
+    it "merges two known tries" $ do
       let
         lt = ST.fromList [[2, 3], [2, 2, 1]]
         rt = ST.fromList [[1, 3], [1, 2], []]
