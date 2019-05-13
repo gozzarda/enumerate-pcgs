@@ -1,0 +1,17 @@
+sudo: true
+language: haskell
+
+cache:
+  directories:
+  - "$HOME/.stack"
+  - "$TRAVIS_BUILD_DIR/.stack-work"
+
+before_install:
+  - curl -sSL https://get.haskellstack.org/ | sh
+  - stack --version
+
+install:
+  - stack build --test --bench --no-run-tests --no-run-benchmarks
+
+script:
+  - stack test
