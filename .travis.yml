@@ -2,6 +2,7 @@ sudo: true
 language: haskell
 
 cache:
+  timeout: 600
   directories:
   - "$HOME/.stack"
   - "$TRAVIS_BUILD_DIR/.stack-work"
