@@ -1,13 +1,13 @@
 module PCGSat
   ( Vertex, Edge
   , Graph, Seq
-  , pcgSat
+  , pcgSat, pcgSeqs
   ) where
 
 import Data.Set (Set)
 import qualified Data.Set as Set
 
-import SeqSat (Seq, satisfiable)
+import SeqSat (Seq, satisfiable, solutions)
 
 type Vertex = Int
 type Edge = (Int, Int)
@@ -20,6 +20,15 @@ pcgSat g = satisfiable inc exc
   where
     inc = includeEdgeSeqs g
     exc = excludeEdgeSeqs g
+
+-- Test whether the given graph is a polygon-circle graph
+-- and return a list of sequence representations
+pcgSeqs :: Graph -> [Seq]
+pcgSeqs g = solutions inc exc
+  where
+    inc = includeEdgeSeqs g
+    exc = excludeEdgeSeqs g
+
 
 -- Computes a list of subsequences that must appear in the sequence
 -- representation of the graph for all its edges to be present

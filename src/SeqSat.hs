@@ -1,9 +1,12 @@
 module SeqSat
   ( Seq
   , satisfiable
+  , solutions
   ) where
 
 import Data.Maybe (listToMaybe, catMaybes)
+import Data.List (sortBy)
+import Data.Function (on)
 
 import SeqTrie (SeqTrie, Seq)
 import qualified SeqTrie as ST
@@ -19,8 +22,8 @@ satisfiable :: [Seq] -> [Seq] -> Maybe Seq
 satisfiable inc exc = satisfiable' [] (ST.fromList inc) (ST.fromList exc)
 
 traceStack :: Int -> [Int] -> a -> a
-traceStack l s | length s < l = traceShow (reverse s)
-traceStack l s | length s == l = trace ((show $ reverse s) ++ "...")
+-- traceStack l s | length s < l = traceShow (reverse s)
+-- traceStack l s | length s == l = trace ((show $ reverse s) ++ "...")
 traceStack _ _ = id
 
 -- Returns a sequence that includes all the subsequences in the first argument but none from the second, if one exists
@@ -32,3 +35,7 @@ satisfiable' s inc exc = traceStack 4 s $ firstJust $ map rec $ ST.branches inc
 
 firstJust :: [Maybe a] -> Maybe a
 firstJust = listToMaybe.catMaybes
+
+-- Returns all minimal solutions
+solutions :: [Seq] -> [Seq] -> [Seq]
+solutions inc exc = ST.toList $ ST.seqSat (ST.fromList inc) (ST.fromList exc)
